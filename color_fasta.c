@@ -28,7 +28,6 @@ char echo_line(void) {
 }
 
 void colorize_dna(char nuc) {
-  enum color col;
   switch (nuc){
     case 'a': set_color(RED); break;
     case 'A': set_color(RED); break;
@@ -40,7 +39,6 @@ void colorize_dna(char nuc) {
     case 'T': set_color(CYAN); break;
     default:  set_color(RESET);
   }
-  set_color(col);
 }
 
 int main(int argc, int *argv[]) {
