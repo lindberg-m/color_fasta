@@ -11,21 +11,17 @@ void set_color(enum color c) { printf("\033[%dm", c); }
 
 void init_dna_color_map(enum color map[N_CHARS])
 {
-  for (int i=0; i < N_CHARS; i++)
-  {
-    if      (i == 'a' || i == 'A') map[i] = RED;
-    else if (i == 'c' || i == 'C') map[i] = BLUE;
-    else if (i == 'g' || i == 'G') map[i] = GREEN;
-    else if (i == 't' || i == 'T') map[i] = YELLOW;
-    else                           map[i] = RESET;
-  }
+  map['a'] = map['A'] = RED;
+  map['c'] = map['C'] = BLUE;
+  map['g'] = map['G'] = GREEN;
+  map['t'] = map['T'] = YELLOW;
 }
 
 int main(int argc, int *argv[]) {
   int c;
   int last_c;
 
-  enum color color_map[N_CHARS]; 
+  enum color color_map[N_CHARS] = {RESET}; 
   init_dna_color_map(color_map);
 
   while ((c = getchar()) != EOF) {
