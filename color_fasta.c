@@ -1,58 +1,43 @@
 #include <stdio.h>
 
 typedef enum color {
-  BLACK = 30,
-  RED = 31,
-  GREEN = 32,
-  YELLOW = 33,
-  BLUE = 34,
-  MAGENTA = 35,
-  CYAN = 36,
-  WHITE = 37,
-  RESET = 0,
+  BLACK = 30, RED = 31, GREEN = 32,
+  YELLOW = 33, BLUE = 34, MAGENTA = 35,
+  CYAN = 36, WHITE = 37, RESET = 0,
 } color;
- 
-void set_color(enum color c)
-{
-  printf("\033[%dm", c);
-}
 
-char echo_line(void) {
-  int c = getchar();
-  while (c != EOF){
-    putchar(c);
-    if (c == '\n') break;
-    c = getchar();
-  }  
-  return(c);
-}
-
-void colorize_dna(char nuc) {
-  switch (nuc){
-    case 'a': set_color(RED); break;
-    case 'A': set_color(RED); break;
-    case 'c': set_color(BLUE); break;
-    case 'C': set_color(BLUE); break;
-    case 'g': set_color(GREEN); break;
-    case 'G': set_color(GREEN); break;
-    case 't': set_color(YELLOW); break;
-    case 'T': set_color(YELLOW); break;
-    default:  set_color(RESET);
-  }
-}
+void set_color(enum color c) { printf("\033[%dm", c); }
 
 int main(int argc, int *argv[]) {
   int c;
   int last_c;
 
+  color nuc_map[256];
+  for (int i=0; i < 256; i++)
+  {
+    nuc_map[i] = RESET;
+    if (i == 'a' || i == 'A') 
+      nuc_map[i] = RED;
+    else if (i == 'c' || i == 'C')
+      nuc_map[i] = BLUE;
+    else if (i == 'g' || i == 'G')
+      nuc_map[i] = GREEN;
+    else if (i == 't' || i == 'T')
+      nuc_map[i] = YELLOW;
+  }
+
   while ((c = getchar()) != EOF) {
     if (c == '>') {
-      c = putchar(c);
-      echo_line();
+      set_color(RESET);
+      putchar(c);
+      while ((c = getchar()) != EOF && c != '\n') {
+        putchar(c);
+      }
+      putchar('\n');
     } else if (c == last_c) {
       putchar(c);
     } else {
-      colorize_dna(c);
+      set_color(nuc_map[c]);
       putchar(c);
     }
     last_c = c;
