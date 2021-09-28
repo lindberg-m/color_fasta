@@ -1,4 +1,5 @@
 #include <stdio.h>
+#define N_CHARS 256
 
 typedef enum color {
   BLACK = 30, RED = 31, GREEN = 32,
@@ -8,23 +9,28 @@ typedef enum color {
 
 void set_color(enum color c) { printf("\033[%dm", c); }
 
+void init_dna_color_map(enum color map[N_CHARS])
+{
+  for (int i=0; i < N_CHARS; i++)
+  {
+    map[i] = RESET;
+    if (i == 'a' || i == 'A') 
+      map[i] = RED;
+    else if (i == 'c' || i == 'C')
+      map[i] = BLUE;
+    else if (i == 'g' || i == 'G')
+      map[i] = GREEN;
+    else if (i == 't' || i == 'T')
+      map[i] = YELLOW;
+  }
+}
+
 int main(int argc, int *argv[]) {
   int c;
   int last_c;
 
-  color nuc_map[256];
-  for (int i=0; i < 256; i++)
-  {
-    nuc_map[i] = RESET;
-    if (i == 'a' || i == 'A') 
-      nuc_map[i] = RED;
-    else if (i == 'c' || i == 'C')
-      nuc_map[i] = BLUE;
-    else if (i == 'g' || i == 'G')
-      nuc_map[i] = GREEN;
-    else if (i == 't' || i == 'T')
-      nuc_map[i] = YELLOW;
-  }
+  enum color color_map[N_CHARS]; 
+  init_dna_color_map(color_map);
 
   while ((c = getchar()) != EOF) {
     if (c == '>') {
@@ -37,7 +43,7 @@ int main(int argc, int *argv[]) {
     } else if (c == last_c) {
       putchar(c);
     } else {
-      set_color(nuc_map[c]);
+      set_color(color_map[c]);
       putchar(c);
     }
     last_c = c;
