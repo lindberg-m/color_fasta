@@ -17,59 +17,46 @@ void set_color(enum color c)
   printf("\033[%dm", c);
 }
 
-void echo_line(void) {
+char echo_line(void) {
   int c = getchar();
-  while ((c != '\n') && (c != EOF)) {
+  while (c != EOF){
     putchar(c);
+    if (c == '\n') break;
     c = getchar();
-  }
-  putchar('\n');
+  }  
+  return(c);
 }
 
 void colorize_dna(char nuc) {
   enum color col;
   switch (nuc){
-    case 'a':
-      col = RED;
-      break;
-    case 'A':
-      col = RED;
-      break;
-    case 'c':
-      col = BLUE;
-      break;
-    case 'C':
-      col = BLUE;
-      break;
-    case 'g':
-      col = GREEN;
-      break;
-    case 'G':
-      col = GREEN;
-      break;
-    case 't':
-      col = CYAN;
-      break;
-    case 'T':
-      col = CYAN;
-      break;
-    default:
-      col = RESET;
+    case 'a': set_color(RED); break;
+    case 'A': set_color(RED); break;
+    case 'c': set_color(BLUE); break;
+    case 'C': set_color(BLUE); break;
+    case 'g': set_color(GREEN); break;
+    case 'G': set_color(GREEN); break;
+    case 't': set_color(CYAN); break;
+    case 'T': set_color(CYAN); break;
+    default:  set_color(RESET);
   }
   set_color(col);
 }
 
-
 int main(int argc, int *argv[]) {
   int c;
+  int last_c;
 
   while ((c = getchar()) != EOF) {
     if (c == '>') {
-      putchar(c);
+      c = putchar(c);
       echo_line();
+    } else if (c == last_c) {
+      putchar(c);
     } else {
       colorize_dna(c);
       putchar(c);
     }
+    last_c = c;
   }
 }
