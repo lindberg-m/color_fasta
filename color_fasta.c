@@ -35,8 +35,8 @@ void colorize_dna(char nuc) {
     case 'C': set_color(BLUE); break;
     case 'g': set_color(GREEN); break;
     case 'G': set_color(GREEN); break;
-    case 't': set_color(CYAN); break;
-    case 'T': set_color(CYAN); break;
+    case 't': set_color(YELLOW); break;
+    case 'T': set_color(YELLOW); break;
     default:  set_color(RESET);
   }
 }
