@@ -18,9 +18,10 @@ void set_color(enum color c)
 }
 
 void echo_line(void) {
-  int c;
-  while ((c = getchar()) != '\n') {
+  int c = getchar();
+  while ((c != '\n') && (c != EOF)) {
     putchar(c);
+    c = getchar();
   }
   putchar('\n');
 }
