@@ -2,9 +2,9 @@
 #define N_CHARS 256
 
 typedef enum color {
-  BLACK = 30, RED = 31, GREEN = 32,
-  YELLOW = 33, BLUE = 34, MAGENTA = 35,
-  CYAN = 36, WHITE = 37, RESET = 0,
+  BLACK  = 30, RED   = 31, GREEN   = 32,
+  YELLOW = 33, BLUE  = 34, MAGENTA = 35,
+  CYAN   = 36, WHITE = 37, RESET   = 0,
 } color;
 
 void set_color(enum color c) { printf("\033[%dm", c); }
@@ -13,15 +13,11 @@ void init_dna_color_map(enum color map[N_CHARS])
 {
   for (int i=0; i < N_CHARS; i++)
   {
-    map[i] = RESET;
-    if (i == 'a' || i == 'A') 
-      map[i] = RED;
-    else if (i == 'c' || i == 'C')
-      map[i] = BLUE;
-    else if (i == 'g' || i == 'G')
-      map[i] = GREEN;
-    else if (i == 't' || i == 'T')
-      map[i] = YELLOW;
+    if      (i == 'a' || i == 'A') map[i] = RED;
+    else if (i == 'c' || i == 'C') map[i] = BLUE;
+    else if (i == 'g' || i == 'G') map[i] = GREEN;
+    else if (i == 't' || i == 'T') map[i] = YELLOW;
+    else                           map[i] = RESET;
   }
 }
 
